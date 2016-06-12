@@ -1,0 +1,49 @@
+{
+	"kind": "ReplicationController",
+	"apiVersion": "v1",
+	"metadata": {
+		"name": "teamcity-rc",
+		"labels": {
+			"server": "prod",
+			"app": "teamcity"
+		}
+	},
+ 	"spec": {
+		"replicas": 1,		
+		"selector": {
+			"server": "prod",
+      		"app": "teamcity"
+    	},
+		"template": {	
+			"metadata": {
+				"labels": {
+					"server": "prod",
+					"app": "teamcity"
+			 	}
+			},
+			"spec": {
+				"containers": [{
+					"name": "teamcity",
+					"image": "sjoerdmulder/teamcity:latest",
+					"ports": [{
+						"containerPort": 8111,
+						"hostPort": 8111	
+					}],
+					"volumeMounts": [{
+						"mountPath": "/var/lib/teamcity",
+						"name": "teamcity"
+					}]
+				}],
+				"restartPolicy": "Always",
+				"dnsPolicy": "ClusterFirst",
+				"volumes": [{
+					"name": "teamcity",
+					"gcePersistentDisk": {
+						"pdName": "teamcity",
+						"fsType": "ext4"
+					}
+				}]
+			}
+		}
+	}
+}
