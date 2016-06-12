@@ -9,7 +9,7 @@
 		}
 	},
  	"spec": {
-		"replicas": 3,		
+		"replicas": 1,		
 		"selector": {
 			"server": "prod",
       		"app": "teamcity-agent"
@@ -28,6 +28,10 @@
 					"env": [{
 						"name": "TEAMCITY_SERVER",
 						"value": "http://teamcity.kovalevskyi.com"
+					}],
+					"ports": [{
+						"containerPort": 9090,
+						"hostPort": 9090
 					}],
 					"resources": {
 						"limits": {
