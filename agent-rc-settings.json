@@ -1,0 +1,48 @@
+{
+	"kind": "ReplicationController",
+	"apiVersion": "v1",
+	"metadata": {
+		"name": "teamcity-agent-rc",
+		"labels": {
+			"server": "prod",
+			"app": "teamcity-agent"
+		}
+	},
+ 	"spec": {
+		"replicas": 3,		
+		"selector": {
+			"server": "prod",
+      		"app": "teamcity-agent"
+    	},
+		"template": {	
+			"metadata": {
+				"labels": {
+					"server": "prod",
+					"app": "teamcity-agent"
+			 	}
+			},
+			"spec": {
+				"containers": [{
+					"name": "teamcity-agent",
+					"image": "sjoerdmulder/teamcity-agent:latest",
+					"env": [{
+						"name": "TEAMCITY_SERVER",
+						"value": "http://teamcity.kovalevskyi.com"
+					}],
+					"resources": {
+						"limits": {
+							"cpu": "200m",
+							"memory": "2000Mi"
+						}, 
+						"requests": {
+							"cpu": "10m",
+							"memory": "1000Mi"
+						}
+					}
+				}],
+				"restartPolicy": "Always",
+				"dnsPolicy": "ClusterFirst"
+			}
+		}
+	}
+}

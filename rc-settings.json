@@ -28,11 +28,24 @@
 					"ports": [{
 						"containerPort": 8111,
 						"hostPort": 8111	
+					}, {
+						"containerPort": 9090,
+						"hostPort": 9090
 					}],
 					"volumeMounts": [{
 						"mountPath": "/var/lib/teamcity",
 						"name": "teamcity"
-					}]
+					}],
+					"resources": {
+						"limits": {
+							"cpu": "200m",
+							"memory": "2000Mi"
+						}, 
+						"requests": {
+							"cpu": "10m",
+							"memory": "1000Mi"
+						}
+					}
 				}],
 				"restartPolicy": "Always",
 				"dnsPolicy": "ClusterFirst",
